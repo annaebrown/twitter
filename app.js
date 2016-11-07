@@ -1,6 +1,21 @@
 var express = require( 'express' );
-var volleyball = require( 'volleyball' );
+var volleyball = require('volleyball');
+var nunjucks = require('nunjucks')
 var app = express();
+
+nunjucks.configure('views', {
+	noCache: true
+});
+
+var people = [{name: 'Full'}, {name: 'Stacker'}, {name: 'Son'}];
+
+app.set('view engine', 'html');
+
+app.engine('html', nunjucks.render)
+
+app.get('/', function(req, res) {
+    res.render('index', {title: 'Hall of Fame', people: people});
+});
 
 app.listen(3000, function(){
 	console.log("we are golden")
