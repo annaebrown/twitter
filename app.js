@@ -1,42 +1,39 @@
-var express = require( 'express' );
-var volleyball = require('volleyball');
-var nunjucks = require('nunjucks')
-var app = express();
+const express = require( 'express' );
+const app = express();
 
+const volleyball = require('volleyball');
+app.use(volleyball);
+
+//RENDERING
+const nunjucks = require('nunjucks')
+app.engine('html', nunjucks.render)
 nunjucks.configure('views', {
 	noCache: true
 });
-
-var people = [{name: 'Full'}, {name: 'Stacker'}, {name: 'Son'}];
-
 app.set('view engine', 'html');
 
-app.engine('html', nunjucks.render)
+//ROUTING
+const routes = require("./routes/")
+app.use("/", routes);
 
-app.get('/', function(req, res) {
-    res.render('index', {title: 'Hall of Fame', people: people});
-});
-
+//SERVER PORT
 app.listen(3000, function(){
 	console.log("we are golden")
 })
 
-app.use(volleyball);
-
 app.use('/special/', function(req, res, next) {
-	res.send("You are my favorite unicorn!");
+	res.send("You're my favorite unicorn!");
 	next();
 })
 
 app.use(function(req, res, next) {
-	console.log(`logged! Status: ${res.statusCode}`)
+	console.log(`Status: ${res.statusCode}`)
 	next();
 })
 
-app.get('/', function(req, res) {
-	res.send("we are golden!");
-})
+// app.get('/stylesheets/style.css', function (req, res) {
+// 	res.sendFile(__dirname + '/public/stylesheets/style.css');
+// })
+//Instead of GET handling every file in our public folder, let's make everything in that folder accessible by its path:
 
-app.get('/news', function(req, res){
-	res.send("word")
-})
+app.use(express.static('public'));
