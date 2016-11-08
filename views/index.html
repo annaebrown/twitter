@@ -6,19 +6,22 @@ index.html
  <div class="page-header">
    <h1>Welcome to Twitter.js!</h1>
  </div>
- <div class="row">
-   <div class="col-md-3">
+ <div class="row" id="user-info">
+   <div class="col-md-4">
      <img src="https://pbs.twimg.com/profile_images/2450268678/olxp11gnt09no2y2wpsh_normal.jpeg"><br>
      <b>Your Name</b><br>
      100 followers
-   </div>
-   <div class="col-md-9">
-
+   </div><br>
+   <div class="col-md-8" id="tweets">
      <!-- display tweets here -->
      {% for tweet in tweets %}
-       <li>{{tweet.content}}</li>
+       <div class="row">
+         <img style="float: left" src="https://api.adorable.io/avatars/48/abott@adorable.io.png">
+         <h5 class="col-sm-9"><a href="/users/{{tweet.name}}"><b>{{tweet.name}}</b></a></h5>
+         <p class="col-sm-9">{{tweet.content}}</p>
+         <a href="/tweets/{{tweet.id}}"><p>Re-tweet</p></a>
+       </div>
      {% endfor %}
-
    </div>
  </div>
 
